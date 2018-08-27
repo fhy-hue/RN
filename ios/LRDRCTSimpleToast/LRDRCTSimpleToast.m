@@ -106,9 +106,7 @@ RCT_EXPORT_METHOD(showWithGravity:(NSString *)msg duration:(double)duration grav
 
 - (void)_show:(NSString *)msg duration:(NSTimeInterval)duration gravity:(NSInteger)gravity {
     dispatch_async(dispatch_get_main_queue(), ^{
-        //UIView *root = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] view];
-        UIViewController *ctrl = [self visibleViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
-        UIView *root = [ctrl view];
+        UIView *root = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] view];
         CGRect bound = root.bounds;
         bound.size.height -= _keyOffset;
         if (bound.size.height > LRDRCTSimpleToastBottomOffset*2) {
