@@ -106,8 +106,11 @@ RCT_EXPORT_METHOD(showWithGravity:(NSString *)msg duration:(double)duration grav
 
 - (void)_show:(NSString *)msg duration:(NSTimeInterval)duration gravity:(NSInteger)gravity {
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView *root = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] view];
-        CGRect bound = root.bounds;
+        //ref: https://stackoverflow.com/a/8045804/2717372
+        UIWindow *topWindow = [[[UIApplication sharedApplication].windows sortedArrayUsingComparator:^NSComparisonResult(UIWindow *win1, UIWindow *win2) {
+            return win1.windowLevel - win2.windowLevel;
+        }] lastObject];
+        CGRect bound = topWindow.bounds;
         bound.size.height -= _keyOffset;
         if (bound.size.height > LRDRCTSimpleToastBottomOffset*2) {
             bound.origin.y += LRDRCTSimpleToastBottomOffset;
@@ -115,7 +118,7 @@ RCT_EXPORT_METHOD(showWithGravity:(NSString *)msg duration:(double)duration grav
         }
         UIView *view = [[UIView alloc] initWithFrame:bound];
         view.userInteractionEnabled = NO;
-        [root addSubview:view];
+        [topWindow addSubview:view];
         UIView __weak *blockView = view;
         id position;
         if (gravity == LRDRCTSimpleToastGravityTop) {
