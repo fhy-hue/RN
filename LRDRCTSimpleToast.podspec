@@ -3,7 +3,7 @@ require "json"
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
 Pod::Spec.new do |s|
-  s.name         = "react-native-simple-toast"
+  s.name         = "LRDRCTSimpleToast"
   s.version      = package["version"]
   s.summary      = package["description"]
   s.homepage     = "https://github.com/fhy-hue/react-native-simple-toast"
